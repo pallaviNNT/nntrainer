@@ -654,6 +654,8 @@ std::string RunLayerContext::getKernelName(LayerKernel layerKernel) {
     return "fc_dot_cl";
   case LayerKernel::FCSGEMM:
     return "fc_sgemm_cl";
+  case LayerKernel::RMSNORM:
+    return "rmsnorm_cl";
   default:
     return "";
   }

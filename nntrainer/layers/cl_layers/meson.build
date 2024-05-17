@@ -1,5 +1,6 @@
 cl_layer_sources = [
-  'fc_layer_cl.cpp'
+  'fc_layer_cl.cpp',
+  'rmsnorm_layer_cl.cpp'
 ]
 
 foreach s : cl_layer_sources

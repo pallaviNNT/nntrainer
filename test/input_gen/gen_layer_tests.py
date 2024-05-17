@@ -111,7 +111,7 @@ class PositionalEncoding(tf.keras.layers.Layer):
 
 
 if __name__ == "__main__":
-    fc = K.layers.Dense(5)
+    '''fc = K.layers.Dense(5)
     record_single(fc, (3, 1, 1, 10), "fc_plain")
     fc = K.layers.Dense(4)
     record_single(fc, (1, 1, 1, 10), "fc_single_batch")
@@ -865,4 +865,22 @@ if __name__ == "__main__":
     )
 
     added = K.layers.Add()
-    record_single_fp16(added, [(2, 3, 3, 3), (2, 3, 3, 3)], "added_w16a16")
+    record_single_fp16(added, [(2, 3, 3, 3), (2, 3, 3, 3)], "added_w16a16")'''
+    
+    class RMSNorm(tf.keras.layers.Layer):
+        def __init__(self, axis=-1, epsilon=0.001, **kwargs):
+            super().__init__(**kwargs)
+            self.axis = axis
+            self.epsilon = epsilon
+
+        def build(self, input_shape):
+            self.beta = self.add_weight(name="beta", shape=(input_shape[-1],), initializer="zeros", trainable=True)
+            self.gamma = self.add_weight(name="gamma", shape=(input_shape[-1],), initializer="ones", trainable=True)
+
+        def call(self, inputs):
+            mean, variance = tf.nn.moments(inputs, self.axis, keepdims=True)
+            normalized_inputs = (inputs - mean) / tf.sqrt(variance + self.epsilon)
+            return self.gamma * normalized_inputs + self.beta
+
+    rms_norm = RMSNorm()
+    record_single(rms_norm,(2,3,3,30),"rms_norm")

@@ -14,7 +14,7 @@
 
 #include <cl_context.h>
 #include <fc_layer_cl.h>
-
+#include <rmsnorm_layer_cl.h>
 namespace nntrainer {
 
 std::mutex cl_factory_mutex;
@@ -26,6 +26,9 @@ static void add_default_object(ClContext &cc) {
   cc.registerFactory(nntrainer::createLayer<FullyConnectedLayerCl>,
                      FullyConnectedLayerCl::type,
                      ml::train::LayerType::LAYER_FC);
+  cc.registerFactory(nntrainer::createLayer<RMSNormLayerCl>,
+                     RMSNormLayerCl::type, ml::train::LayerType::LAYER_RMSNORM);
+
 }
 
 static void registerer(ClContext &cc) noexcept {
