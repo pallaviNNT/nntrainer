@@ -1,6 +1,7 @@
 cl_layer_sources = [
   'fc_layer_cl.cpp',
   'blas_kernels.cpp',
+  'rmsnorm_layer_cl.cpp'
 ]
 
 if get_option('enable-fp16')
